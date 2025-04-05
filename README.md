@@ -22,6 +22,9 @@
   <p>
     List of CUDA sourcecodes from exercises I'm doing along my CUDA learning journey.
   </p>
+  
+<img alt="barracuda funny gif" width="317" height="319" src="https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books/blob/master/Cuda/Yamada_Anna_Holding_Cuda_By_Example.png?raw=true">
+
 </div>
 
 ---
