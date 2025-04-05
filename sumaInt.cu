@@ -17,7 +17,7 @@ int main()
     if (err != cudaSuccess) {
         printf("Error en el lanzamiento del kernel: %s\n", cudaGetErrorString(err));
     }
-cudaDeviceSynchronize(); // Espera a que se complete el kernel
+    cudaDeviceSynchronize(); // Espera a que se complete el kernel
 
     cudaMemcpy(&c, dev_c, sizeof(int), cudaMemcpyDeviceToHost);//Copiar resultado de memoria de la GPU a memoria de la CPU
 
