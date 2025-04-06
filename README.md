@@ -11,7 +11,7 @@
     </tr>
   </table>
 
-  ![GitHub last commit](https://img.shields.io/github/last-commit/franlo42/barracuda?logo=mongodb)
+  ![GitHub Created At](https://img.shields.io/github/created-at/franlo42/barracuda?logo=mongodb)
   ![GitHub contributors](https://img.shields.io/github/contributors/franlo42/barracuda?logo=draugiemdotlv)
   ![GitHub top language](https://img.shields.io/github/languages/top/franlo42/barracuda?logo=academia)
   ![Last commit](https://img.shields.io/github/last-commit/franlo42/barracuda?logo=n8n&logoColor=%2320BEFF&color=fdd50b)
