@@ -6,7 +6,7 @@
 __global__ void mediasmatrizcpu(double *A,  double *sal)
 {
   int i,tid;//M=Filas;N=Columnas
-  tid=threadIdx.x;
+  tid= threadIdx.x + blockIdx.x * blockDim.x;
   double suma;
   suma=0;
   for(i=0;i<M;i++){
