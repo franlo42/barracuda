@@ -41,8 +41,40 @@ __global__ void max_gpu_v1(int *A, int *sal){//1 bloque por columna
   sal[blockIdx.x]=temp;
 }
 
-__global__ void max_gpu_v2(int *A, int *sal){
+__global__ void max_gpu_v2(int *A, int *sal){//Varios threads de cada bloque colaboran
+  
+  __shared__ int cache[BLOCKSIZE];
+  int tid, cacheIndex, temp;
+  tid = threadIdx.x;
+  cacheIndex = threadIdx.x;
+  temp = A[tid+blockIdx.x*N];
 
+  //Calculo parcial de ceda HILO
+  while(tid<N){
+    if(A[tid+blockIdx.x*N] > temp){
+      temp=A[tid+blockIdx.x*N];
+    }
+    tid+=blockDim.x;
+  }
+  cache[cacheIndex]=temp;
+  
+  __syncthreads();//Sincronizar hilos=Asegurar que la cache esta llena para calcularel resultado parcial del BLOQUE
+
+  //Calculo distribuido de todo el bloque
+  int i= blockDim.x / 2;
+  while(i!=0){
+    if(cacheIndex<i){
+      if(cache[cacheIndex]<cache[cacheIndex+i]){
+        cache[cacheIndex]=cache[cacheIndex+i];
+      }
+    }
+    __syncthreads();//Sincronizacion final para obtener el resultado parcial del BLOQUE en cache[0]
+    i=i/2;//REDUCCION
+  }
+
+  if(threadIdx.x == 0){//Meter resultado parcial del bloque en vector de resultados parciales de todos los bloques
+    sal[blockIdx.x]=cache[0];
+  }
 }
  
 int main() {
@@ -61,7 +93,7 @@ int main() {
     }
   Print_matrix(A);
   calcula_max(A,&salcpu);
-  printf("\nEl maximo calculado en cpu es %d ",salcpu);
+  printf("\nEl maximo calculado en cpu es %d\n",salcpu);
 
 
 
@@ -89,24 +121,38 @@ int main() {
 
   //llamada kernel v1
   max_gpu_v1<<<N,1>>>(dev_A, dev_sal);
+  //llamada kernel v2
+  max_gpu_v2<<<N,BLOCKSIZE>>>(dev_A, dev_sal2);
 
   //Traer de gpu el resultado
   cudaMemcpy( sal, dev_sal, N*sizeof(int), cudaMemcpyDeviceToHost);
 
+  cudaMemcpy( sal2, dev_sal2, N*sizeof(int), cudaMemcpyDeviceToHost);  
+
 
   int sol=sal[0];
-  for(int i=1;i<N-1;i++){
+  for(int i=1;i<N;i++){
     if(sal[i]>sol){
       sol=sal[i];
     }
   }
   printf("\nEl maximo calculado en gpuV1 es %d\n",sol);
 
+  int sol2=sal2[0];
+  for(int i=1;i<N;i++){
+    if(sal2[i]>sol2){
+      sol2=sal2[i];
+    }
+  }
+  printf("\nEl maximo calculado en gpuV2 es %d\n",sol2);
+
   free(A);
   free(sal);
  
   cudaFree(dev_A);
   cudaFree(dev_sal);
+  cudaFree(dev_sal2);
 }
+
 	
 	
