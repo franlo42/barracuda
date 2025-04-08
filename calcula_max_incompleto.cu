@@ -33,9 +33,9 @@ __global__ void max_gpu_v1(int *A, int *sal){//1 bloque por columna
   tid = threadIdx.x + blockIdx.x * blockDim.x;
   temp = A[tid];
 
-  for(int i=1;i<N-1;i++){
-    if(A[tid + blockIdx.x *i] > temp){
-      temp=A[tid + blockIdx.x *i];
+  for(int i=0;i<N-1;i++){
+    if(A[tid*N+i+1] > temp){
+      temp=A[tid*N+i+1];
     }
   }
   sal[blockIdx.x]=temp;
@@ -100,7 +100,7 @@ int main() {
       sol=sal[i];
     }
   }
-  printf("\nEl maximo calculado en gpuV1 es %d ",sol);
+  printf("\nEl maximo calculado en gpuV1 es %d\n",sol);
 
   free(A);
   free(sal);
