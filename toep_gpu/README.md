@@ -1,0 +1,6 @@
+El objetivo del ejercicio es escribir un programa en CUDA que compruebe si una matriz es toeplitz (es decir, constante por diagonales).
+
+- Hay una función, llamada “comprobar_cpu”, que comprueba en la cpu si la matriz es toeplitz o no. Si lo es devuelve 1, si no lo es devuelve 0. Hay otra función para imprimir la matriz.
+- El main genera la matriz en la cpu, genera una matriz de números, la imprime, y llama a la función “comprobar_cpu”, mostrando por pantalla el resultado. Tal como está el código, la matriz es toeplitz. Para probar que el caso contrario (no toeplitz) funciona , basta descomentar la línea //A[3+N*4]=77; que pone un 77 en la fila 3, columna 4.
+
+Debéis completar ese código con lo necesario para que el mismo cálculo se haga en la gpu (que por supuesto debe coincidir con el resultado calculado en la cpu). Como en algunos ejercicios hechos en clase, para obtener el resultado final hay que hacer una última reducción en la cpu. Hay que usar un thread (o bloque de un thread) por columna.
