@@ -26,6 +26,16 @@
 ___
 
 <br>
-<summary><kbd>Table of Contents</kbd></summary>
 
-- [Hello World](/hello/)
+<kbd>Table of Contents</kbd>
+
+- [Hello World!](/hello/)
+- [sumaInt](/sumaInt/)
+- [sumavec](/sumavec/)
+- [sumamatrix](/sumamatrix/)
+- [avg3](/avg3/)
+- [avgmatrix](/avgmatrix/)
+- [prod_esc](/prod_esc/)
+- [busca_int](/busca_int/)
+- [calcula_max](/calcula_max/)
+- [toep_gpu](/toep_gpu/)
